@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forestry Pro — Professional Forest Inventory & Timber Volume Calculator</title>
+    <meta name="description" content="The pocket-sized forestry expert. 18 country-specific calculation methods, 31 languages, 8 export formats. Used by foresters, timber professionals, and researchers worldwide.">
+    <meta name="keywords" content="forest inventory, timber volume calculator, wood measurement, forestry app, log scaling, tree volume, Huber formula, Smalian, Doyle rule, Scribner, forest management, Android">
+    <meta name="author" content="Forestry Pro">
+    <meta property="og:title" content="Forestry Pro — Professional Forest Inventory App">
+    <meta property="og:description" content="18 calculation methods, 31 languages, 8 export formats. The most comprehensive forestry tool on Android.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌲</text></svg>">
+    <style>
+        :root {
+            --green-dark: #1b5e20;
+            --green-mid: #2e7d32;
+            --green-light: #4caf50;
+            --green-pale: #e8f5e9;
+            --brown: #795548;
+            --text: #263238;
+            --text-light: #546e7a;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background: var(--white);
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 50%, var(--brown) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 80px 20px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .hero-icon { font-size: 72px; margin-bottom: 16px; }
+        .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .hero .tagline { font-size: clamp(1rem, 2.5vw, 1.4rem); opacity: 0.9; margin-bottom: 32px; font-weight: 300; }
+        .hero .cta-btn {
+            display: inline-block;
+            background: var(--white);
+            color: var(--green-dark);
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+        .cta-sub { margin-top: 12px; font-size: 0.85rem; opacity: 0.7; }
+
+        /* NUMBERS BAR */
+        .numbers {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0;
+            background: var(--green-pale);
+            padding: 0;
+        }
+        .num-item {
+            flex: 1 1 25%;
+            min-width: 160px;
+            text-align: center;
+            padding: 24px 16px;
+            border-right: 1px solid rgba(46,125,50,0.1);
+        }
+        .num-item:last-child { border-right: none; }
+        .num-big { font-size: 2.2rem; font-weight: 900; color: var(--green-dark); }
+        .num-label { font-size: 0.85rem; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* 3 PILLARS */
+        .pillars {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+        .pillar {
+            text-align: center;
+            padding: 40px 24px;
+            border-radius: 16px;
+            background: var(--white);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+            border: 1px solid #f0f0f0;
+            transition: transform 0.2s;
+        }
+        .pillar:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+        .pillar-icon { font-size: 48px; margin-bottom: 16px; }
+        .pillar h3 { color: var(--green-dark); font-size: 1.2rem; margin-bottom: 8px; }
+        .pillar p { color: var(--text-light); font-size: 0.95rem; }
+
+        /* FEATURES GRID */
+        .features {
+            background: #fafafa;
+            padding: 60px 20px;
+        }
+        .features h2 { text-align: center; color: var(--green-dark); font-size: 1.8rem; margin-bottom: 40px; }
+        .feat-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .feat-item {
+            background: var(--white);
+            padding: 24px;
+            border-radius: 12px;
+            border-left: 4px solid var(--green-light);
+        }
+        .feat-item strong { display: block; color: var(--green-dark); margin-bottom: 4px; }
+        .feat-item span { font-size: 0.9rem; color: var(--text-light); }
+
+        /* WHO USES */
+        .who {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .who h2 { color: var(--green-dark); font-size: 1.8rem; margin-bottom: 32px; }
+        .who-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+        .who-tag {
+            background: var(--green-pale);
+            color: var(--green-dark);
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* PRICING */
+        .pricing {
+            background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+            color: var(--white);
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .pricing h2 { font-size: 1.8rem; margin-bottom: 8px; }
+        .pricing .price { font-size: 3.5rem; font-weight: 900; margin: 16px 0 4px; }
+        .pricing .price-sub { opacity: 0.8; margin-bottom: 8px; }
+        .pricing .price-note { font-size: 0.85rem; opacity: 0.6; margin-bottom: 24px; }
+        .pricing .trial { background: rgba(255,255,255,0.15); display: inline-block; padding: 8px 24px; border-radius: 50px; margin-bottom: 24px; }
+        .pricing .cta-btn { margin-top: 8px; }
+
+        /* FOOTER */
+        footer {
+            background: #263238;
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 0.9rem;
+        }
+        footer a { color: var(--green-light); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        .footer-links { margin-bottom: 16px; }
+        .footer-links a { margin: 0 12px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .hero { padding: 60px 16px 40px; }
+            .num-item { flex: 1 1 50%; }
+            .pillars { padding: 40px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">🌲</div>
+            <h1>Forestry Pro</h1>
+            <p class="tagline">The pocket-sized forestry expert</p>
+            <a href="#pricing" class="cta-btn">Get Started — Free Trial</a>
+            <p class="cta-sub">Android &bull; No account needed &bull; Works offline</p>
+        </div>
+    </section>
+
+    <!-- NUMBERS -->
+    <section class="numbers">
+        <div class="num-item">
+            <div class="num-big">31</div>
+            <div class="num-label">Languages</div>
+        </div>
+        <div class="num-item">
+            <div class="num-big">18</div>
+            <div class="num-label">Calculation Methods</div>
+        </div>
+        <div class="num-item">
+            <div class="num-big">8</div>
+            <div class="num-label">Export Formats</div>
+        </div>
+        <div class="num-item">
+            <div class="num-big">12</div>
+            <div class="num-label">Legal References</div>
+        </div>
+    </section>
+
+    <!-- 3 PILLARS -->
+    <section class="pillars">
+        <div class="pillar">
+            <div class="pillar-icon">🔒</div>
+            <h3>Legal Compliance</h3>
+            <p>Country-specific calculation methods backed by official government standards and scientific publications. Every formula is referenced and verifiable.</p>
+        </div>
+        <div class="pillar">
+            <div class="pillar-icon">⚡</div>
+            <h3>Field Efficiency</h3>
+            <p>Measure, calculate, and export in the field. GPS mapping, photo attachments, offline operation. No internet needed — your data stays on your device.</p>
+        </div>
+        <div class="pillar">
+            <div class="pillar-icon">📊</div>
+            <h3>Decision Support</h3>
+            <p>Carbon estimation (IPCC/FAO), harvest planning, growth projections, and health assessments. From raw measurements to actionable insights.</p>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features">
+        <h2>Everything a forester needs</h2>
+        <div class="feat-grid">
+            <div class="feat-item">
+                <strong>🌍 18 Methods</strong>
+                <span>Giurgiu, Huber, Smalian, Newton, Formzahl, Halaj, IFN France, INFC Italy, FC UK, SFI Russia, MAFF Japan, NFI China, FSI India, MoEF Indonesia, Tropical Biomass, Doyle, Scribner, International 1/4"</span>
+            </div>
+            <div class="feat-item">
+                <strong>📄 8 Export Formats</strong>
+                <span>PDF, Excel, CSV, JSON, ZIP, KML, GPX, and Log Pile PDF reports</span>
+            </div>
+            <div class="feat-item">
+                <strong>📸 Log Measurement</strong>
+                <span>Photograph a log pile, mark diameters on screen, calibrate, get instant Huber-formula volumes</span>
+            </div>
+            <div class="feat-item">
+                <strong>🗺️ GPS Mapping</strong>
+                <span>Leaflet maps with satellite view, tree clustering, offline tiles, KML/GPX export for GIS</span>
+            </div>
+            <div class="feat-item">
+                <strong>🌿 CO₂ Estimation</strong>
+                <span>IPCC/FAO carbon calculator — biomass, sequestration, equivalents for reporting</span>
+            </div>
+            <div class="feat-item">
+                <strong>🏥 Health Assessment</strong>
+                <span>12 damage types, severity scoring, treatment recommendations — document forest health</span>
+            </div>
+            <div class="feat-item">
+                <strong>🪓 Harvest Planning</strong>
+                <span>4 harvest types, sustainability thresholds, FSC/PEFC certification tracking</span>
+            </div>
+            <div class="feat-item">
+                <strong>📱 Works Offline</strong>
+                <span>Full functionality without internet. Auto-backup, cloud sync via Share API when connected</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHO USES -->
+    <section class="who">
+        <h2>Built for professionals</h2>
+        <div class="who-grid">
+            <div class="who-tag">🌲 Foresters</div>
+            <div class="who-tag">🪵 Timber Traders</div>
+            <div class="who-tag">🏗️ Wood Industry</div>
+            <div class="who-tag">🎓 Forestry Students</div>
+            <div class="who-tag">🔬 Researchers</div>
+            <div class="who-tag">🌿 Conservation Officers</div>
+            <div class="who-tag">📋 Forestry Consultants</div>
+            <div class="who-tag">🏛️ Government Agencies</div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing" id="pricing">
+        <h2>Early Professional Price</h2>
+        <div class="trial">🎁 30-day free trial — no credit card</div>
+        <div class="price">€29.99</div>
+        <div class="price-sub">per year</div>
+        <div class="price-note">Competitors charge €100–€1,500/year for less functionality</div>
+        <a href="https://play.google.com/store/apps/details?id=com.ocol.pro" class="cta-btn">Download on Google Play</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-links">
+            <a href="mailto:Silent.Process.Pro@proton.me">Contact</a>
+            <a href="https://github.com/zsoltpeterolah-max/forestry-pro-references">Scientific References</a>
+        </div>
+        <p>&copy; 2026 Forestry Pro. All rights reserved.</p>
+        <p style="margin-top: 8px; font-size: 0.8rem; opacity: 0.5;">Built with precision. No tracking. No cookies. Your data stays yours.</p>
+    </footer>
+
+</body>
+</html>
